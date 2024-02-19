@@ -25,20 +25,20 @@ export class CartController {
   @ApiOperation({ summary: "Изменение количество товара в корзине" })
   @UseGuards(JwtAuthGuard)
   @Patch('/count/:id')
-  updateCount(@Body() { count }, @Param('id') goodId) {
-    return this.cartService.updateCount(count, goodId);
+  updateCount(@Body() { count }, @Param('id') cartId) {
+    return this.cartService.updateCount(count, cartId);
   }
   @ApiOperation({ summary: "Изменение финальной цены корзины" })
   @UseGuards(JwtAuthGuard)
   @Patch('/total-price/:id')
-  updateTotalPrice(@Body() { total_price }, @Param('id') goodId) {
-    return this.cartService.updateTotalPrice(total_price, goodId);
+  updateTotalPrice(@Body() { total_price }, @Param('id') cartId) {
+    return this.cartService.updateTotalPrice(total_price, cartId);
   }
   @ApiOperation({ summary: "Удаление элемента корзины пользователя" })
   @UseGuards(JwtAuthGuard)
   @Delete('/one/:id')
-  removeOne(@Param('id') goodId) {
-    return this.cartService.removeCartItem(goodId);
+  removeOne(@Param('id') cartId) {
+    return this.cartService.removeCartItem(cartId);
   }
   @ApiOperation({ summary: "Удаление всех элементов корзины пользователя" })
   @UseGuards(JwtAuthGuard)

@@ -36,25 +36,26 @@ export class CartService {
         return cart.save();
     }
 
-    async updateCount(count, goodId) {
-        await this.cartRepository.update({ count }, { where: { goodId } })
-        const good = await this.cartRepository.findOne({ where: { goodId } })
+    async updateCount(count, cartId) {
+        await this.cartRepository.update({ count }, { where: { id: cartId } })
+        const good = await this.cartRepository.findOne({ where: { id: cartId } })
 
         return { count: good.count }
     }
 
-    async updateTotalPrice(total_price, goodId) {
-        await this.cartRepository.update({ total_price }, { where: { goodId } })
-        const good = await this.cartRepository.findOne({ where: { goodId } })
+    async updateTotalPrice(total_price, cartId) {
+        await this.cartRepository.update({ total_price }, { where: { id: cartId } })
+        const good = await this.cartRepository.findOne({ where: { id: cartId } })
 
-        return { count: good.total_price }
+        return { total_price: good.total_price }
     }
 
-    async removeCartItem(goodId) {
+    async removeCartItem(cartId) {
 
-        const good = await this.cartRepository.findOne({ where: { goodId } })
-
-        await good.destroy();
+        const cartItem = await this.cartRepository.findOne({ where: { id: cartId } })
+        const deletedItem = cartItem;
+        await cartItem.destroy();
+        return { deletedItem };
     }
 
     async removeAll(userId) {

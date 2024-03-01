@@ -21,11 +21,13 @@ export class AuthService {
     }
     //токен
     async generateToken(user: User) {
-        const payload = { email: user.email, id: user.id };
+        const payload = { email: user.email, id: user.id, roles: user.roles };
+        console.log(user.email)
         return {
             token: this.jwtService.sign(payload),
             userId: user.id,
-            email: user.email
+            email: user.email,
+            roles: user.roles
         }
     }
     //создание пользователя

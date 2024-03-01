@@ -13,7 +13,10 @@ import { CartModule } from './cart/cart.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { PaymentModule } from './payment/payment.module';
+import { RoleModule } from './role/role.module';
 import * as path from 'path';
+import { Role } from './role/role.model';
+import { UserRoles } from './role/user-roles.model';
 
 
 @Module({
@@ -30,16 +33,18 @@ import * as path from 'path';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       autoLoadModels: true,
-      models: [User, Goods, Cart]
+      models: [User, Goods, Cart, Role, UserRoles]
     }),
     ServeStaticModule.forRoot({
-      rootPath: path.resolve(__dirname, 'static')
+      rootPath: path.resolve(__dirname, 'static'),
+      serveStaticOptions: { index: false },
     }),
     AuthModule,
     GoodsModule,
     CartModule,
     FilesModule,
-    PaymentModule
+    PaymentModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [AppService],

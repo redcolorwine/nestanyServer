@@ -4,6 +4,7 @@ import { Goods } from './goods.model';
 import { Op } from 'sequelize';
 import { AddGoodDto } from 'src/role/dto/add-good.dto';
 import { FilesService } from 'src/files/files.service';
+import { DeleteGoodDto } from 'src/role/dto/delete-good.dto';
 
 @Injectable()
 export class GoodsService {
@@ -41,5 +42,10 @@ export class GoodsService {
         // const fileName = await this.fileService.createFile(img);
         const good = await this.goodsRepository.create({ ...dto, img: img });
         return good;
+    }
+    async deleteGood(dto: DeleteGoodDto) {
+        const deletedGood = await this.goodsRepository.findOne({ where: { id: dto.id } });
+        await this.goodsRepository.destroy({ where: { id: dto.id } });
+        return deletedGood;
     }
 }

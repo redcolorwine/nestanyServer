@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { GoodsService } from './goods.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AddGoodDto } from 'src/role/dto/add-good.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Response } from 'express';
+import { Roles } from 'src/auth/roles-auth.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { DeleteGoodDto } from 'src/role/dto/delete-good.dto';
 
 
 
@@ -41,7 +44,8 @@ export class GoodsController {
   // addGood(@Body() dto: AddGoodDto, @UploadedFile() img) {
   //   return this.goodsService.addGoods(dto, img);
   // }
-
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
   @Post('add')
   @UseInterceptors(FileInterceptor('img', {
     storage: diskStorage({
@@ -70,4 +74,8 @@ export class GoodsController {
     res.sendFile(filename, { root: './uploads' });
   }
 
+  @Post('delete')
+  deleteGood(@Body() dto: DeleteGoodDto) {
+    return this.goodsService.deleteGood(dto);
+  }
 }

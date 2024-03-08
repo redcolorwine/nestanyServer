@@ -17,13 +17,14 @@ export class UsersController {
   @ApiOperation({ summary: 'Получение пользователей' })
   @ApiResponse({ status: 200, type: [User] })
   // @UseGuards(JwtAuthGuard)
-  // @Roles('ADMIN')
-  // @UseGuards(RolesGuard)
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
   @Get()
   findAll() {
     return this.usersService.getAllUsers();
   }
-
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
   @Post('/role')
   addRole(@Body() dto: AddRoleDto) {
     return this.usersService.addRole(dto);

@@ -5,3 +5,4 @@ export class AddGoodDto {
     readonly price: number;
     readonly description: string;
 }
+

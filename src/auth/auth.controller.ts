@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/users/users.model';
+import { LogoutDto } from 'src/users/dto/logout.dto';
 
 @ApiTags('Авторизация')
 @Controller('auth')
@@ -22,5 +23,9 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
+  @Post('/logout')
+  logout(@Body() dto: LogoutDto) {
+    return this.authService.logout(dto);
+  }
 
 }

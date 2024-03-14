@@ -4,6 +4,7 @@ import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@n
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/users.model';
+import { LogoutDto } from 'src/users/dto/logout.dto';
 @Injectable()
 export class AuthService {
     constructor(private readonly usersService: UsersService, private jwtService: JwtService) { }
@@ -45,6 +46,11 @@ export class AuthService {
     async login(dto: CreateUserDto) {
         const user = await this.validateUser(dto);
         return this.generateToken(user);
+    }
+
+    async logout(dto: LogoutDto) {
+        const user = await this.usersService.findOne(dto.userId);
+        return { message: `Пользователь с id ${user.email} завершил сеанс` };
     }
 }
 
